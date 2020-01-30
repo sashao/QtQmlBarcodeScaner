@@ -15,12 +15,53 @@ ApplicationWindow {
 
     ColumnLayout {
         spacing: 6
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-        anchors.left: parent.left
-        anchors.leftMargin: 0
+        anchors.fill: parent
+//        anchors.right: parent.right
+//        anchors.rightMargin: 0
+//        anchors.left: parent.left
+//        anchors.leftMargin: 0
+
+
+        ScrollView {
+//            Rectangle {
+//                anchors.fill: parent
+////                implicitWidth: 40
+////                implicitHeight: 20
+//                color: "lightblue"
+//            }
+
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            clip: true
+
+
+            ListView {
+                id: listView
+                x:0
+                y:0
+                anchors.fill: parent
+                model: 20
+                delegate: ItemDelegate {
+                    text: "Item " + (index + 1)
+                    width: parent.width
+                    onClicked: print("item clicked "+ text)
+                    contentItem: RowLayout {
+                        Text {
+                            id: namesss
+                            text: qsTr("this is sparta")
+                            Layout.fillWidth: true
+                        }
+                        Button {
+                            text: "Go!"
+                        }
+                    }
+                }
+            }
+        }
+
 
         Button {
+            Layout.alignment: Qt.AlignCenter
             id: button
             text: qsTr("Button")
         }
@@ -30,44 +71,43 @@ ApplicationWindow {
             text: qsTr("Delay Button")
         }
 
-        Slider {
-            id: slider
-            value: 0.5
-        }
+        RowLayout {
+            Layout.alignment: Qt.AlignLeading
+            Slider {
+                id: slider
+                value: 0.5
+                Layout.minimumWidth: 20
+                Layout.fillWidth: true
 
-        ProgressBar {
-            id: progressBar
-            value: 0.5
-        }
+            }
 
-        PageIndicator {
-            id: pageIndicator
-            count: 3
-        }
+            PageIndicator {
+                id: pageIndicator
+                Layout.alignment: Qt.AlignCenter
+                count: 3
+                Layout.fillWidth: true;
+            }
 
-        ScrollView {
-            anchors.rightMargin: 0
-            anchors.bottomMargin: 0
-            anchors.leftMargin: 30
-            anchors.topMargin: 30
-            anchors.fill: parent
+//            Rectangle {
+//                color: "steelblue"
+//                implicitHeight: 20
+//                Layout.fillWidth: true;
+//            }
 
-            ListView {
-                x: 0
-                y: 0
-                model: 20
-                delegate: ItemDelegate {
-                    text: "Item " + (index + 1)
-                    width: parent.width
-                }
+            ProgressBar {
+                id: progressBar
+                value: 0.5
+                Layout.fillWidth: true
             }
         }
+
+
 
     }
 
     Connections {
         target: delayButton
-        onClicked: print("clicked delay")
+        onActivated: print("toggled")
     }
 
     Connections {
@@ -84,8 +124,3 @@ ApplicationWindow {
     }
 }
 
-/*##^##
-Designer {
-    D{i:1;anchors_x:0}
-}
-##^##*/
