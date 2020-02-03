@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 
+
+
+
 project(QtQmlBarcodeScaner LANGUAGES CXX)
+
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -8,7 +12,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
@@ -26,6 +30,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Core Quick REQUIRED)
 
+set(QZXING_MULTIMEDIA ON)
+set(QZXING_USE_QML ON)
+add_subdirectory(qzxing/src)
+add_definitions(-DQZXING_QML)
+add_definitions(-DQZXING_MULTIMEDIA)
+
+
 if(ANDROID)
     add_library(QtQmlBarcodeScaner SHARED
       main.cpp
@@ -41,4 +52,5 @@ endif()
 target_compile_definitions(QtQmlBarcodeScaner
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(QtQmlBarcodeScaner
-  PRIVATE Qt5::Core Qt5::Quick)
+  PRIVATE Qt5::Core Qt5::Quick qzxing PUBLIC qzxing)
+
