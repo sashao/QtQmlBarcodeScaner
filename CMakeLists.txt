@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
 
-
-
-
 project(QtQmlBarcodeScaner LANGUAGES CXX)
 
 
@@ -32,9 +29,10 @@ find_package(Qt5 COMPONENTS Core Quick REQUIRED)
 
 set(QZXING_MULTIMEDIA ON)
 set(QZXING_USE_QML ON)
-add_subdirectory(qzxing/src)
 add_definitions(-DQZXING_QML)
 add_definitions(-DQZXING_MULTIMEDIA)
+add_definitions(-DENABLE_ENCODER_GENERIC)
+add_subdirectory(qzxing/src)
 
 
 if(ANDROID)
@@ -52,5 +50,5 @@ endif()
 target_compile_definitions(QtQmlBarcodeScaner
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(QtQmlBarcodeScaner
-  PRIVATE Qt5::Core Qt5::Quick qzxing PUBLIC qzxing)
+  PRIVATE Qt5::Core Qt5::Quick qzxing)
 

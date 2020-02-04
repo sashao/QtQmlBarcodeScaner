@@ -25,6 +25,9 @@ ApplicationWindow {
 
 
 
+
+
+
     ColumnLayout {
         id: columnLayout
         spacing: 6
@@ -42,7 +45,7 @@ ApplicationWindow {
 
 
             autoOrientation: true
-            //filters: [ zxingFilter ]
+            filters: [ zxingFilter ]
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -176,6 +179,61 @@ ApplicationWindow {
 
 
     }
+
+
+
+
+
+    QZXingFilter
+     {
+         id: zxingFilter
+         captureRect: {
+             // setup bindings
+             videoOutput.contentRect;
+             videoOutput.sourceRect;
+             return videoOutput.mapRectToSource(videoOutput.mapNormalizedRectToItem(Qt.rect(
+                 0., 0., 1., 1.
+             )));
+         }
+
+         decoder {
+             enabledDecoders: QZXing.DecoderFormat_EAN_13 | QZXing.DecoderFormat_CODE_39 | QZXing.DecoderFormat_QR_CODE
+             //enabledDecoders: QZXing.DecoderFormat_QR_CODE
+
+             onTagFound: {
+                 print(tag + " | " + decoder.foundedFormat() + " | " + decoder.charSet());
+
+//                 window.detectedTags++;
+//                 window.lastTag = tag;
+             }
+
+             tryHarder: true
+         }
+
+         onDecodingStarted:
+         {
+//             console.log("started");
+         }
+
+         property int framesDecoded: 0
+         property real timePerFrameDecode: 0
+
+         onDecodingFinished:
+         {
+            timePerFrameDecode = (decodeTime + framesDecoded * timePerFrameDecode) / (framesDecoded + 1);
+            framesDecoded++;
+             if (succeeded)
+             {
+                print("SUCCESS!!!\n\n\n\n\n\n\n\n frame finished: " + succeeded, decodeTime, timePerFrameDecode, framesDecoded);
+             }
+             print("frame finished: " + succeeded, decodeTime, timePerFrameDecode, framesDecoded);
+         }
+     }
+
+
+
+
+
 
     Connections {
         target: delayButton
