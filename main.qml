@@ -22,10 +22,11 @@ ApplicationWindow {
          captureMode: Camera.CaptureViewfinder
      }
 
-
-
-
-
+    ListModel {
+            id: myModel
+            ListElement { text_: "Dog"; index: 8 }
+            ListElement { text_: "Cat"; index: 50 }
+        }
 
 
     ColumnLayout {
@@ -75,6 +76,7 @@ ApplicationWindow {
 
 
 
+
         ScrollView {
             id: scrollView
 
@@ -87,16 +89,16 @@ ApplicationWindow {
                 id: listView
                 highlightRangeMode: ListView.NoHighlightRange
                 anchors.fill: parent
-                model: 200
+                model: myModel
                 delegate: ItemDelegate {
                     property int indexxx: index
-                    text: "Item " + (indexxx + 1)
+                    text: text_
                     width: parent.width
                     onClicked: print("item clicked "+ text)
                     contentItem: RowLayout {
                         Text {
                             id: namesss
-                            text: qsTr("this is sparta")
+                            text: text_
                             Layout.fillWidth: true
                         }
                         Button {
@@ -202,6 +204,9 @@ ApplicationWindow {
 
              onTagFound: {
                  print(tag + " | " + decoder.foundedFormat() + " | " + decoder.charSet());
+
+                 myModel.append({text_:  tag });
+
 
 //                 window.detectedTags++;
 //                 window.lastTag = tag;
