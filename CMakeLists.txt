@@ -32,6 +32,12 @@ set(QZXING_USE_QML ON)
 add_definitions(-DQZXING_QML)
 add_definitions(-DQZXING_MULTIMEDIA)
 add_definitions(-DENABLE_ENCODER_GENERIC)
+
+add_definitions(-DENABLE_DECODER_QR_CODE)
+#add_definitions(-DENABLE_DECODER_AZTEC)
+add_definitions(-DENABLE_DECODER_1D_BARCODES)
+add_definitions(-DNO_ICONV)
+
 add_subdirectory(qzxing/src)
 
 
